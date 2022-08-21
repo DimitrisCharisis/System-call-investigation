@@ -1,6 +1,6 @@
-# new_syscall_5.18
-Creating a new vm. 
-Boot the new vm with a new Linux kernel (version 5.18)
+# new_syscall_5.18  
+Creating a new vm.     
+Boot the new vm with a new Linux kernel (version 5.18)  
 Add to the Linux kernel a new "dummy" system system call before compiling it.
 
 ### Steps to follow
@@ -25,14 +25,18 @@ Add the new system call.
   #include <linux/kernel.h>
   #include <linux/syscalls.h>
   
-  DEFINE_SYSCALL1(hello, unsigned long, i) {
+  SYSCALL_DEFINE1(hello, unsigned long, i) {
     printk(KERN_ALERT "Hello World, i'm sys_hello with arg: %ld\n", i);
     return 0;
   }
   ```
-* `vim Makefile`
-* Add `obj-y := hello.o`
+* `vim Makefile`  
+   Add `obj-y := hello.o`
 * `cd ..`
+* `vim Makefile`  
+   Find `core-y   += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/`  
+   And add `hello/`. So the line is now:  
+   `core-y   += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ hello/`  
 * `vim arch/x86/entry/syscalls/syscall_64.tbl`
 * Add in the end `548 64 hello     sys_hello`
 > Note: the last syscall on my implementation had number 547.
@@ -42,7 +46,7 @@ Add the new system call.
 * `make defconfig`
 * `make -j4`
 * `make modules`
-* `make moduels_install`
+* `make modules_install`
 * `make install`
 * Run VM with the new kernel:  
 `qemu-system-x86_64 -m 2G -kernel "linux-5.18/arch/x86/boot/bzImage"  
@@ -52,13 +56,11 @@ Add the new system call.
  Inside the vm write a simple program like
  ```c
 #include <stdio.h>
-#include <linux/kernel.h>
-#include <sys/syscall.h>
 #include <unistd.h>
 
 int main(int argc, char **argv) {
-        long int helloCheck = syscall(548, 5);
-        printf("System call sys_hello returned %ld\n", helloCheck);
+        long int check = syscall(548, 42);
+        printf("System call sys_hello returned %ld\n", check);
         return 0;
 }
  ```
