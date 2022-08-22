@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
 }
  ```
    
-* If `printk()` is not showing in the screen just `dmesg | grep World` to see the output of your syscall
+* If `printk()` is not showing on the screen just `dmesg | grep World` to see the output of your syscall
 
 
 ## Anatomy of system call
