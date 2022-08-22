@@ -168,7 +168,7 @@ So after the `syscall`, as we saw previously, we jump to the Linux kernel system
 `entry_SYSCALL_64` now calls the `do_syscall()` function.  
 `do_syscall()` takes two arguments. The number of the syscall and a struct that has saved all the necessary registers.  
   
-Finally, inside `do_syscall()` is happening the call to the corresponding service routine from the system call table through `sys_call_table[nr](regs);`.  
+Finally, inside `do_syscall()` is happening the call to the corresponding service routine from the system call table through `sys_call_table[nr](regs)`.  
 `nr` is the number of the system call initially stored in `%rax` from the user.
   
   
