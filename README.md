@@ -75,11 +75,11 @@ So inside the system call the kernel runs in favour of the process that made the
 
 One way to issue a system call from user-space (in `x86_64` architecture) is the `syscall` instruction.  
 The `syscall` instruction jumps to the address stored in the `MSR_LSTAR` Model specific register* (Long system target address register).  
-The kernel is responsible for providing its own custom function for handling syscalls as well as writing the address of this handler function to the `MSR_LSTAR` register upon system startup. The custom function is `entry_SYSCALL_64()`.
+The kernel is responsible for providing its own custom function for handling syscalls as well as writing the address of this handler function to the `MSR_LSTAR` register upon system startup. The custom function is `entry_SYSCALL_64`.
 > *A model-specific register (MSR) is any of various control registers in the x86 instruction set used for debugging, program execution tracing, computer performance monitoring, and toggling certain CPU features.  
 Reading and writing to these registers is handled by the `rdmsr` and `wrmsr` instructions, respectively. As these are privileged instructions, they can be executed only by the operating system.  
   
-So during startup kernel fills the register with the address of the `entry_SYSCALL_64()`  
+So during startup kernel fills the register with the address of the `entry_SYSCALL_64`  
 `wrmsrl(MSR_LSTAR, entry_SYSCALL_64);`.  
   
 Ok, till now we know how to reach the kernel when issuing a system call from user space. But two questions arose.  
@@ -119,8 +119,9 @@ sys_call_table[] = {
 
 More specifically the user before the call to `syscall`, loads the contents of `%rax` register with the desired number of the system call.  
 If the system call takes arguments they are loaded in `%rdi, %rsi, %rdx, %rcx, %r8, %r9` respectively. If it takes more than 6 arguments then the remaining arguments are stored in the stack.  
-
-
-
+So after the `syscall` as we saw previously we jump to the linux kernel haldler, the `entry_SYSCALL_64`.  
+`entry_SYSCALL_64` now calls the `do_syscall()` function.  
+`do_syscall()` takes two arguments. The number of the syscall and a struct that has saved all the necessary registers.  
+Finally, inside `do_syscall()` there is happening the call to corresponding service routine from the system call table through `sys_call_table[nr](regs);`.
 
 
