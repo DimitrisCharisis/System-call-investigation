@@ -179,6 +179,8 @@ Finally, inside `do_syscall_64()` is happening the call to the corresponding ser
 1. [How to add system call (syscall) to the kernel, compile and test it](https://dev.to/omergulen/how-to-add-system-call-syscall-to-the-kernel-compile-and-test-it-3e6p)
 2. [Anatomy of system call](https://lwn.net/Articles/604287/)
 3. [System calls in the Linux kernel](https://0xax.gitbooks.io/linux-insides/content/SysCall/linux-syscall-1.html)
-4. [Intel documentation](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)
+4. [SYSCALL - Fast System Call](https://www.felixcloutier.com/x86/syscall)
+5. [Intel documentation](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)
+
   
 
