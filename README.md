@@ -165,14 +165,14 @@ More specifically the user, before the call to `syscall`, loads the contents of 
 If the system call takes arguments they are loaded in `%rdi, %rsi, %rdx, %rcx, %r8, %r9` respectively. If it takes more than 6 arguments then the remaining arguments are stored in the stack.  
   
 So after the `syscall`, as we saw previously, we jump to the Linux kernel system call handler, the `entry_SYSCALL_64`.  
-`entry_SYSCALL_64` now calls the `do_syscall()` function.  
-`do_syscall()` takes two arguments. The number of the syscall and a struct that has saved all the necessary registers.  
+`entry_SYSCALL_64` now calls the `do_syscall_64()` function.  
+`do_syscall_64()` takes two arguments. The number of the syscall and a struct that has saved all the necessary registers.  
   
-Finally, inside `do_syscall()` is happening the call to the corresponding service routine from the system call table through `sys_call_table[nr](regs)`.  
+Finally, inside `do_syscall_64()` is happening the call to the corresponding service routine from the system call table through `sys_call_table[nr](regs)`.  
 `nr` is the number of the system call initially stored in `%rax` from the user.
   
   
-<img src="images/system_call_drawing.png" width=60% height=70%>  
+<img src="images/System_call_drawing.png" width=60% height=70%>  
   
   
 ## Interesting resources
